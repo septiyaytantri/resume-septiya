@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { db } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
-import { PublicHeader } from "@/components/layout/public-header";
+import { LandingNavbar } from "@/components/layout/landing-navbar";
 
 type Params = {
   params: Promise<{ slug: string }>;
@@ -51,8 +51,8 @@ export default async function BlogDetailPage({ params }: Params) {
 
   return (
     <div>
-      <PublicHeader />
-      <article className="container-width py-12">
+      <LandingNavbar />
+      <article className="container-width py-12 mt-16">
         <h1 className="max-w-3xl text-4xl font-semibold leading-tight">{blog.title}</h1>
         <p className="mt-3 text-sm text-zinc-500">Septiya • {formatDate(blog.publishedAt || blog.createdAt)}</p>
         <div className="relative mt-8 h-[320px] overflow-hidden rounded-xl bg-zinc-100">

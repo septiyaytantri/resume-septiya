@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { db } from "@/lib/db";
-import { PublicHeader } from "@/components/layout/public-header";
+import { LandingNavbar } from "@/components/layout/landing-navbar";
 import { BlogCard } from "@/components/blog/blog-card";
 
 export const metadata: Metadata = {
@@ -25,8 +25,8 @@ export default async function BlogListPage() {
 
   return (
     <div>
-      <PublicHeader />
-      <section className="container-width py-12">
+      <LandingNavbar />
+      <section className="container-width py-12 mt-16">
         <h1 className="mb-6 text-3xl font-semibold">Blog</h1>
         <div className="grid gap-5 md:grid-cols-3">
           {blogs.map((blog: { slug: string; title: string; excerpt: string | null; thumbnail: string | null; createdAt: Date }) => (

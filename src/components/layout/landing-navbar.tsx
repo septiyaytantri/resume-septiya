@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useScrollSpy } from "@/hooks/use-scroll-spy";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -17,9 +18,11 @@ const navItems = [
 ];
 
 export function LandingNavbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const activeId = useScrollSpy(navItems.map((item) => item.id));
+  const isLandingPage = pathname === "/";
 
   useEffect(() => {
     function handleScroll() {
@@ -30,10 +33,15 @@ export function LandingNavbar() {
   }, []);
 
   function scrollToSection(id: string) {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsOpen(false);
+    if (isLandingPage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setIsOpen(false);
+      }
+    } else {
+      // Jika bukan di landing page, redirect ke landing page dengan hash
+      window.location.href = `/#${id}`;
     }
   }
 
@@ -41,7 +49,7 @@ export function LandingNavbar() {
     <header
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled ? "bg-white border-b border-zinc-200 shadow-sm" : "bg-transparent",
+        isScrolled || !isLandingPage ? "bg-white border-b border-zinc-200 shadow-sm" : "bg-transparent",
       )}
     >
       <div className="container-width flex h-16 items-center justify-between">
