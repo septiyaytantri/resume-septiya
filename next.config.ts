@@ -7,12 +7,14 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  // Skip static generation untuk page yang butuh database
-  ...(process.env.SKIP_BUILD_DATABASE_VALIDATION === 'true' && {
-    typescript: {
-      ignoreBuildErrors: false,
-    },
-  }),
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

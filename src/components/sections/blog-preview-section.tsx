@@ -11,18 +11,25 @@ type BlogPreviewItem = {
 };
 
 export async function BlogPreviewSection() {
-  const blogs = await db.blog.findMany({
-    where: { status: "published" },
-    orderBy: { createdAt: "desc" },
-    take: 3,
-    select: {
-      slug: true,
-      title: true,
-      excerpt: true,
-      thumbnail: true,
-      createdAt: true,
-    },
-  });
+  let blogs: BlogPreviewItem[] = [];
+  
+  try {
+    blogs = await db.blog.findMany({
+      where: { status: "published" },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+      select: {
+        slug: true,
+        title: true,
+        excerpt: true,
+        thumbnail: true,
+        createdAt: true,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    // Return empty array if database is not available
+  }
 
   return (
     <section className="py-24 bg-zinc-50">
