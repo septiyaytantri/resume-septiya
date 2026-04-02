@@ -4,8 +4,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
 
 FROM base AS deps
-# Install system dependencies untuk Prisma
-RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 # Set placeholder DATABASE_URL untuk prisma generate
