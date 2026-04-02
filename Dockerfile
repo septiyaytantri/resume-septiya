@@ -30,5 +30,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/next.config.ts ./next.config.ts
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/scripts ./scripts
+
+# Copy startup script
+COPY docker-entrypoint.sh ./
+RUN chmod +x docker-entrypoint.sh
+
 EXPOSE 3005
-CMD ["npm", "run", "start", "--", "-H", "0.0.0.0", "-p", "3005"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
