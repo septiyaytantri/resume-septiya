@@ -1,22 +1,27 @@
-FROM node:22-slim AS base
+FROM node:22-alpine AS base
 
 ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
 
 FROM base AS deps
+RUN apk add --no-cache libc6-compat openssl
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 RUN npm ci
 RUN npx prisma generate
 
 FROM base AS builder
+RUN apk add --no-cache libc6-compat openssl
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 ENV SKIP_ENV_VALIDATION="true"
 RUN npm run build
 
 FROM base AS runner
+RUN apk add --no-cache openssl
 ENV NODE_ENV=production
 ENV PORT=3005
 ENV HOSTNAME=0.0.0.0
