@@ -41,7 +41,7 @@ export function HeroSection() {
             <Button
               onClick={() => {
                 const link = document.createElement("a");
-                link.href = "/public/Septiya_Yutantri_CV.pdf";
+                link.href = "/Septiya_Yutantri_CV.pdf";
                 link.download = "Septiya_Yutantri_CV.pdf";
                 link.click();
               }}
